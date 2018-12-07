@@ -55,15 +55,23 @@ public class HuffProcessor {
 	}
 		
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
-		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-				'W', 'X', 'Y', 'Z'};
-		for (char ch : letters) {
-			String code = codings[ch];
-			out.writeBits(code.length(), Integer.parseInt(code,2));
+		int bit = in.readBits(BITS_PER_WORD);
+		for (int i = 0; i < codings.length; i++) {
+			out.writeBits(codings[i].length(), Integer.parseInt(codings[i],2));
 		}
+//		out.writeBits(bit.length(), Integer.parseInt(bit,2));
+//		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+//				'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V','W', 'X', 'Y', 'Z'};
+//		for (char ch : letters) {
+//			String code = codings[ch];
+//			out.writeBits(code.length(), Integer.parseInt(code,2));
+//		}
+//		for (int i = 0; i < ALPH_SIZE; i++) {
+//			String code = codings[i]
+//		}
 		String code = codings[PSEUDO_EOF];
 		out.writeBits(code.length(), Integer.parseInt(code,2));
-
+		
 		
 	}
 
