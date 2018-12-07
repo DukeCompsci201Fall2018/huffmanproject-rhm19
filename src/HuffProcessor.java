@@ -12,6 +12,9 @@ import java.util.PriorityQueue;
  */
 
 public class HuffProcessor {
+	
+
+
 
 	public static final int BITS_PER_WORD = 8;
 	public static final int BITS_PER_INT = 32;
@@ -31,6 +34,8 @@ public class HuffProcessor {
 	
 	public HuffProcessor(int debug) {
 		myDebugLevel = debug;
+//		HuffProcessor hp  = new HuffProcessor(4);
+//		HuffProcessor hp = new HuffProcessor(HuffProcessor.DEBUG_HIGH);
 	}
 
 	/**
@@ -59,21 +64,9 @@ public class HuffProcessor {
 		while (true) {
 			int bit = in.readBits(BITS_PER_WORD);
 			if (bit == -1) break;
-//			if (codings[bit] != null) {
 				String code = codings[bit];
 				out.writeBits(code.length(), Integer.parseInt(code,2));
-//		}
 		}
-//		out.writeBits(bit.length(), Integer.parseInt(bit,2));
-//		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
-//				'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V','W', 'X', 'Y', 'Z'};
-//		for (char ch : letters) {
-//			String code = codings[ch];
-//			out.writeBits(code.length(), Integer.parseInt(code,2));
-//		}
-//		for (int i = 0; i < ALPH_SIZE; i++) {
-//			String code = codings[i]
-//		}
 		String code = codings[PSEUDO_EOF];
 		out.writeBits(code.length(), Integer.parseInt(code,2));
 		
@@ -101,6 +94,9 @@ public class HuffProcessor {
 	private void codingHelper(HuffNode root, String string, String[] encodings) {
 		if (root.myLeft == null && root.myRight == null) {
 	        encodings[root.myValue] = string;
+	        if (myDebugLevel >= DEBUG_HIGH) {
+	        	System.out.printf("encoding for %d is %s\n", root.myValue,string);
+	        }
 	        return;
 	   }
 			codingHelper(root.myLeft, string+"0", encodings);
@@ -113,6 +109,9 @@ public class HuffProcessor {
 			if (counts[i] > 0) {
 				pq.add(new HuffNode(i,counts[i],null,null));
 			}
+		}
+		if (myDebugLevel >= DEBUG_HIGH) {
+			System.out.printf("pq created with %d nodes\n" , pq.size());
 		}
 		while (pq.size() > 1) {
 			HuffNode left = pq.remove();
