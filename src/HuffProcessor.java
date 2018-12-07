@@ -57,7 +57,9 @@ public class HuffProcessor {
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
 		int bit = in.readBits(BITS_PER_WORD);
 		for (int i = 0; i < codings.length; i++) {
-			out.writeBits(codings[i].length(), Integer.parseInt(codings[i],2));
+			if (codings[i] != null) {
+				out.writeBits(codings[i].length(), Integer.parseInt(codings[i],2));
+			}
 		}
 //		out.writeBits(bit.length(), Integer.parseInt(bit,2));
 //		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
