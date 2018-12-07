@@ -57,7 +57,6 @@ public class HuffProcessor {
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
 		int bit = in.readBits(BITS_PER_WORD);
 		while (bit != -1) {
-			bit = in.readBits(BITS_PER_WORD);
 //			if (codings[bit] != null) {
 				String code = codings[bit];
 				out.writeBits(code.length(), Integer.parseInt(code,2));
