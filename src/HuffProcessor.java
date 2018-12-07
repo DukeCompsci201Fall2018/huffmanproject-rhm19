@@ -146,7 +146,6 @@ public class HuffProcessor {
 //				throw new HuffException("Illegal header starts with " + val);
 			HuffNode root = readTreeHeader(in);
 			readCompressedBits(root, in, out);
-			out.writeBits(BITS_PER_WORD, val);
 //		}
 		out.close();
 	}
@@ -178,7 +177,7 @@ public class HuffProcessor {
 		           if (bits == 0) current = current.myLeft;
 		           else current = current.myRight;
 
-		           if (current == null) {
+		           if (current.myLeft == null && current.myRight == null) {
 		               if (current.myValue == PSEUDO_EOF) 
 		                   break;   // out of loop
 		               else {
